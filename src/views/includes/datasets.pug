@@ -1,0 +1,39 @@
+.container#datasets
+  .row
+    .col-md-12
+      h2
+        i(class="fas fa-database")
+        |  RDF Datasets available
+      p.
+        Query these RDF datasets using the <a href="https://github.com/sage-org/sage-jena/releases/tag/1.0-SNAPSHOT">Java</a> or <a href="https://github.com/sage-org/sage-client">Javascript</a> client
+      #table-responsive
+        table(class="table")
+          thead
+            tr
+              th.
+                Dataset
+              th.
+                Description
+              th.
+                RDF triples
+              th.
+                Time quantum
+              th.
+                VoID description
+              th.
+                More details
+          tbody
+            for dataset in datasets
+              tr
+                td= dataset[rdf.DCTERMS('title')][0]['@value']
+                td= dataset[rdf.DCTERMS('description')][0]['@value']
+                td= formatNumber(dataset[rdf.VOID('triples')][0]['@value'])
+                td= dataset[rdf.SAGE('quota')][0]['@value']
+                td
+                  a(href=`${serverURL}/void/${dataset[rdf.DCTERMS('title')][0]['@value']}`, target='_none')
+                    i(class="fas fa-external-link-alt")
+                    |  Open
+                td
+                  a(href=`/see/${dataset[rdf.DCTERMS('title')][0]['@value']}`, target='_none')
+                    i(class="fas fa-external-link-alt")
+                    |  Open

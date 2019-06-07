@@ -25,6 +25,7 @@ SOFTWARE.
 'use strict'
 const { DCTERMS, HYDRA, SAGE, SD, RDF, RDFS } = require('./rdf.js')
 const request = require('request')
+const { sortBy } = require('lodash')
 
 // fetch the VoID description of a server
 function fetchVoID (url) {
@@ -47,9 +48,21 @@ function fetchVoID (url) {
       body.forEach(entity => {
         m.set(entity['@id'], entity)
       })
-      resolve(m)
+      resolve(formatVoID(url, m))
     })
   })
+}
+
+function formatVoID (url, descriptor) {
+  const root = descriptor.get(url)
+  const graphCollec = root[SD('availableGraphs')][0]
+  // get all graphs provided by the Sage endpoint
+  return sortBy(descriptor
+    .get(graphCollec['@id'])[SD('namedGraph')]
+    .map(g => {
+      const id = descriptor.get(g['@id'])[SD('graph')][0]['@id']
+      return descriptor.get(id)
+    }), d => d[DCTERMS('title')][0]['@value'])
 }
 
 module.exports = fetchVoID

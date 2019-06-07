@@ -28,11 +28,16 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path')
 const fetchVoID = require('./void.js')
+const rdf = require('./rdf.js')
+
+function formatNumber (x) {
+  return x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
 
 
 const url = process.argv[2]
 fetchVoID(url)
-  .then(voID => {
+  .then(datasets => {
     const app = express()
 
     app.set('view engine', 'pug')
@@ -44,7 +49,7 @@ fetchVoID(url)
 
 
     app.get('/', function (req, res) {
-      res.render('home', { year: new Date().getFullYear(), serverURL: url, voID })
+      res.render('home', { year: new Date().getFullYear(), serverURL: url, datasets, rdf, formatNumber })
     })
 
 
