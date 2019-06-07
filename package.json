@@ -1,0 +1,53 @@
+{
+  "name": "sage-web",
+  "version": "1.0.0",
+  "description": "Web interface for a SaGe server",
+  "main": "src/app.js",
+  "scripts": {
+    "lint": "standard src/*.js --fix",
+    "web": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sage-org/sage-web.git"
+  },
+  "keywords": [
+    "sage"
+  ],
+  "author": "Thomas Minier <thomas.minier@univ-nantes.fr>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sage-org/sage-web/issues"
+  },
+  "homepage": "https://github.com/sage-org/sage-web#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.9.0",
+    "bootstrap": "^4.3.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.15.0",
+    "pug": "^2.0.3",
+    "request": "^2.88.0",
+    "sage-client": "^1.3.2",
+    "sage-widget": "^2.2.1",
+    "swagger-ui-dist": "^3.22.2",
+    "yasgui-yasqe": "^2.11.22"
+  },
+  "devDependencies": {
+    "standard": "^12.0.1"
+  },
+  "standard": {
+    "env": [
+      "browser",
+      "react",
+      "mocha",
+      "chai"
+    ],
+    "globals": [
+      "sage",
+      "$"
+    ]
+  }
+}
