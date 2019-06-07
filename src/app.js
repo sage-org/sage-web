@@ -34,8 +34,11 @@ function formatNumber (x) {
   return x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
 
-
-const url = process.argv[2]
+let url = process.argv[2]
+if (url.endsWith('/')) {
+  url = url.substring(0, url.length - 1)
+}
+// download the VoID and build the website using it
 fetchVoID(url)
   .then(datasets => {
     const app = express()
@@ -47,21 +50,50 @@ fetchVoID(url)
     app.use(express.static(path.join(__dirname, 'static')))
     app.use(express.static(path.join(__dirname, '../node_modules')))
 
-
     app.get('/', function (req, res) {
       res.render('home', { year: new Date().getFullYear(), serverURL: url, datasets, rdf, formatNumber })
     })
 
+    app.get('/see/:graphName', function (req, res) {
+      const graphName = req.params['graphName']
+      const dataset = datasets.find(elt => elt['@id'] === `${url}/sparql/${graphName}`)
+      if (dataset === undefined) {
+        res.status(404).send(`The RDF dataset with name ${graphName} does not exists on this SaGe server`)
+      } else {
+        res.render('see', {
+          year: new Date().getFullYear(),
+          serverURL: url,
+          queryURL: `${url}/sparql`,
+          datasetURL: `${url}/sparql/${graphName}`,
+          voidURL: `${url}/void/${graphName}`,
+          dataset,
+          rdf,
+          formatNumber
+        })
+      }
+    })
+
     app.get('/sparql11_compliance', function (req, res) {
-      res.render('compliance', { year: new Date().getFullYear(), serverURL: url, datasets, rdf, formatNumber })
+      res.render('compliance', {
+        year: new Date().getFullYear(),
+        serverURL: url,
+        datasets,
+        rdf,
+        formatNumber
+      })
     })
 
     app.get('/api', function (req, res) {
-      res.render('api', { year: new Date().getFullYear(), serverURL: url, datasets, rdf, formatNumber })
+      res.render('api', {
+        year: new Date().getFullYear(),
+        serverURL: url,
+        datasets,
+        rdf,
+        formatNumber
+      })
     })
 
     app.listen(3000, function () {
       console.log('Sage Web listening on port 3000!')
     })
-  })
-  .catch(console.error)
+  }).catch(console.error)

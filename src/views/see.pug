@@ -1,0 +1,104 @@
+extends index
+
+block content
+  .container
+    .row
+      .col-md-12
+        h1= dataset[rdf.DCTERMS('title')][0]['@value'] + ' dataset'
+        
+        h2
+          i(class="fas fa-comments")
+          |  Description
+        p= dataset[rdf.DCTERMS('description')][0]['@value']
+        
+        h2
+          i(class="fas fa-info-circle")
+          |  Infos
+        .table-responsive
+          table(class="table")
+            thead
+              tr
+                th RDF triples
+                th Subjects
+                th Predicates
+                th Objects
+                th Time quota
+                th Max results per request
+            tbody
+              tr
+                td= formatNumber(dataset[rdf.VOID('triples')][0]['@value']) + ' triples'
+                td= formatNumber(dataset[rdf.VOID('distinctSubjects')][0]['@value'])
+                td= formatNumber(dataset[rdf.VOID('properties')][0]['@value'])
+                td= formatNumber(dataset[rdf.VOID('distinctObjects')][0]['@value'])
+                td= dataset[rdf.SAGE('quota')][0]['@value'] + 'ms'
+                if dataset[rdf.HYDRA('itemsPerPage')][0]['@value'] === 'inf'
+                  td No limit
+                else
+                  td= dataset[rdf.HYDRA('itemsPerPage')][0]['@value'] + ' bindings'
+
+        h2
+          i(class="fas fa-boxes")
+          |  VoID description
+        p.
+          Access the <a href="https://www.w3.org/TR/void/">VoID description</a> of the dataset at <a href=voidURL target="_none">#{voidURL}</a>.
+        
+        h2
+          i.fab.fa-hubspot
+          |  Query the Dataset
+        p
+          strong Dataset URI: 
+          a(href=datasetURL) #{datasetURL}
+        // simple queries
+        h4 Basic SPARQL queries
+        p
+          | The SaGe server has a native support for evaluating 
+          em a subset of the SPARQL syntax
+          | . It supports SPARQL queries with the following features:
+        ul
+          li
+            a(href='https://www.w3.org/TR/sparql11-query/#WritingSimpleQueries') Triple patterns
+          li
+            a(href='https://www.w3.org/TR/sparql11-query/#BasicGraphPatterns') Basic Graph patterns
+          li
+            a(href='https://www.w3.org/TR/sparql11-query/#alternatives') Unions
+          li
+            a(href='https://www.w3.org/TR/sparql11-query/#expressions') Filters
+            | , with 
+            em simple expressions only
+            |  (=, !=, <, >=, +, -, etc)
+          li
+            a(href='https://www.w3.org/TR/sparql11-query/#queryDataset') GRAPH clauses
+        form#queryForm(action=queryURL, method='GET')
+          input#defaultGraphUri(hidden='true', name='default-graph-uri', value=datasetURL)
+          .form-group
+            label(for='sparqlQueryTextArea')
+              strong Type your SPARQL query
+            textarea#sparqlQueryTextArea.form-control(name='query')
+          button.btn.btn-success(type='submit')
+            i.fas.fa-play
+            |  Execute
+        hr
+        // complex queries
+        h4 Complete SPARQL 1.1 queries
+        p
+          | To execute 
+          em complete SPARQL queries
+          |  using a SaGe server, you have two options:
+        ul
+          li
+            | Take a look at 
+            a(href="/#software") existing SaGe Smart Clients
+            |  to evaluate SPARQL queries on your computer.
+          li
+            | Use the online playground 
+            strong below
+        #sage-widget(url=serverURL, defaultServer=datasetURL, defaultQuery='SELECT * WHERE { ?s ?p ?o }', defaultQName='')
+
+block extrajs
+  script(src="/yasgui-yasqe/dist/yasqe.bundled.min.js", type="text/javascript", charset="utf-8")
+  script(type="text/javascript").
+    var yasqe = YASQE.fromTextArea(document.getElementById("sparqlQueryTextArea"), {
+      createShareLink: null
+    })
+    yasqe.setValue("SELECT * WHERE { ?s ?p ?o }")
+           

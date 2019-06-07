@@ -29,9 +29,6 @@ const { sortBy } = require('lodash')
 
 // fetch the VoID description of a server
 function fetchVoID (url) {
-  if (url.endsWith('/')) {
-    url = url.substring(0, url.length - 1)
-  }
   return new Promise((resolve, reject) => {
     request({
       url: `${url}/void`,
