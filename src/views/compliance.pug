@@ -1,0 +1,934 @@
+extends index
+
+block title
+  | SPARQL 1.1 compliance - SaGe
+
+block content
+  .container
+    .row
+      .col-md-12
+        h2 SaGe SPARQL 1.1 compliance results
+        
+        p.
+          Here you will find the results for the <a href="https://www.w3.org/2009/sparql/docs/tests/README.html">W3C SPARQL 1.1 compliance test</a> when using the Java or Javascript SaGe client.
+        p.
+          The testing software is available <a href="https://github.com/sage-org/sage-benchmark">on Github</a>.
+        
+        h3 Overall results
+        
+        ul
+          li Number of validated tests: <strong>163</strong> over 225
+          li Number of failed tests: <strong>62</strong> over 225
+          li Overall SPARQL 1.1 compliance: <strong>72%</strong>
+        
+        h3 Unsupported SPARQL 1.1 features
+        
+        ul
+          li.
+            <a href="https://www.w3.org/TR/2013/REC-sparql11-entailment-20130321/">SPARQL Entailment</a> (unless the original RDF Graph has been saturated beforehand)</li>
+          li.
+            <a href="https://www.w3.org/TR/2013/REC-sparql11-update-20130321/">SPARQL 1.1 Update</a> (RDF datasets hosted by SaGe are <em>read-only</em>)
+        
+        h3 Detailed results
+        
+        table.table.table-bordered
+          thead
+            tr
+              th(scope='col', rowspan='2') W3C SPARQL 1.1 Test
+              th(scope='col', colspan='2') Executable with SaGe?
+            tr
+              th(scope='col')
+                a(href='https://github.com/sage-org/sage-jena', target='_blank') Java client
+              th(scope='col')
+                a(href='https://github.com/sage-org/sage-client', target='_blank') Javascript client
+          tbody#compliance-tbody
+            tr
+              td aggregates/agg01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg03
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg04
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg05
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg06
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg07
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg08b
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg-groupconcat-1
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg-groupconcat-2
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg-groupconcat-3
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg-avg-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg-avg-02
+              td.table-danger No
+              td.table-danger No
+            tr
+              td aggregates/agg-min-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg-min-02
+              td.table-danger No
+              td.table-danger No
+            tr
+              td aggregates/agg-max-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg-max-02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg-sum-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg-sum-02
+              td.table-danger No
+              td.table-danger No
+            tr
+              td aggregates/agg-sample-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg-err-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td aggregates/agg-err-02
+              td.table-danger No
+              td.table-danger No
+            tr
+              td aggregates/agg-empty-group
+              td.table-danger No
+              td.table-danger No
+            tr
+              td bindings/values01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bindings/values02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bindings/values03
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bindings/values04
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bindings/values05
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bindings/values06
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bindings/values07
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bindings/values08
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bindings/inline01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bindings/inline02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bind/bind01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bind/bind02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bind/bind03
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bind/bind04
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bind/bind05
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bind/bind06
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bind/bind07
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bind/bind08
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bind/bind10
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td bind/bind11
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/rdf02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/rdf03
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/rdf04
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/rdfs08
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/rdfs11
+              td.table-danger No
+              td.table-danger No
+            tr
+              td entailment/rdfs12
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/rdfs13
+              td.table-danger No
+              td.table-danger No
+            tr
+              td entailment/plainLit
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/paper-sparqldl-Q5
+              td.table-danger No
+              td.table-danger No
+            tr
+              td entailment/bind01
+              td.table-danger No
+              td.table-danger No
+            tr
+              td entailment/bind02
+              td.table-danger No
+              td.table-danger No
+            tr
+              td entailment/bind03
+              td.table-danger No
+              td.table-danger No
+            tr
+              td entailment/bind04
+              td.table-danger No
+              td.table-danger No
+            tr
+              td entailment/bind05
+              td.table-danger No
+              td.table-danger No
+            tr
+              td entailment/bind06
+              td.table-danger No
+              td.table-danger No
+            tr
+              td entailment/bind07
+              td.table-danger No
+              td.table-danger No
+            tr
+              td entailment/bind08
+              td.table-danger No
+              td.table-danger No
+            tr
+              td entailment/sparqldl-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/sparqldl-04
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/sparqldl-05
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/sparqldl-06
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/sparqldl-07
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/sparqldl-08
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/sparqldl-09
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/sparqldl-12
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/lang
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td entailment/parent2
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td exists/exists01
+              td.table-danger No
+              td.table-danger No
+            tr
+              td exists/exists02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td exists/exists03
+              td.table-danger No
+              td.table-danger No
+            tr
+              td exists/exists04
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td exists/exists05
+              td.table-danger No
+              td.table-danger No
+            tr
+              td functions/strdt01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/strdt02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/strdt03
+              td.table-danger No
+              td.table-danger No
+            tr
+              td functions/strlang01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/strlang02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/strlang03
+              td.table-danger No
+              td.table-danger No
+            tr
+              td functions/isnumeric01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/abs01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/ceil01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/floor01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/round01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/concat01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/concat02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/substring01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/substring02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/length01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/ucase01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/lcase01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/encode01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/contains01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/starts01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/ends01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/plus-1
+              td.table-danger No
+              td.table-danger No
+            tr
+              td functions/plus-2
+              td.table-danger No
+              td.table-danger No
+            tr
+              td functions/md5-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/md5-02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/sha1-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/sha1-02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/sha256-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/sha256-02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/sha512-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/sha512-02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/hours-01
+              td.table-danger No
+              td.table-danger No
+            tr
+              td functions/minutes-01
+              td.table-danger No
+              td.table-danger No
+            tr
+              td functions/seconds-01
+              td.table-danger No
+              td.table-danger No
+            tr
+              td functions/year-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/month-01
+              td.table-danger No
+              td.table-danger No
+            tr
+              td functions/day-01
+              td.table-danger No
+              td.table-danger No
+            tr
+              td functions/timezone-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/tz-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/bnode01
+              td.table-danger No
+              td.table-danger No
+            tr
+              td functions/in01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/in02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/notin01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/notin02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/now01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/rand01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/bnode02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/iri01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/if01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/if02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/coalesce01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/strbefore01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/strbefore01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/strbefore02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/strafter01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/strafter01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/strafter02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/replace01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/replace02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/replace03
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td functions/uuid01
+              td.table-danger No
+              td.table-danger No
+            tr
+              td functions/struuid01
+              td.table-danger No
+              td.table-danger No
+            tr
+              td grouping/group01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td grouping/group02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td grouping/group03
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td grouping/group04
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td grouping/group05
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td negation/subsetByExcl01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td negation/subsetByExcl02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td negation/temporalProximity01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td negation/subset-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td negation/subset-02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td negation/set-equals-1
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td negation/subset-03
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td negation/exists-01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td negation/exists-02
+              td.table-danger No
+              td.table-danger No
+            tr
+              td negation/full-minuend
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td negation/part-minuend
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td project-expression/projexp01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td project-expression/projexp02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td project-expression/projexp03
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td project-expression/projexp04
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td project-expression/projexp05
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td project-expression/projexp06
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td project-expression/projexp07
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/pp01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/pp02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/pp03
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/pp06
+              td.table-danger No
+              td.table-success Yes
+            tr
+              td property-path/pp06
+              td.table-danger No
+              td.table-success Yes
+            tr
+              td property-path/pp08
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/pp09
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/pp10
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/pp11
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/pp12
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/pp14
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/pp14
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/path-2-2
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/path-2-2
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/path-2-2
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/path-p2
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/path-p3
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/path-p4
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/path-ng-01
+              td.table-danger No
+              td.table-success Yes
+            tr
+              td property-path/path-ng-02
+              td.table-danger No
+              td.table-success Yes
+            tr
+              td property-path/pp36
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td property-path/pp37
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td service/service01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td service/service02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td service/service03
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td service/service04a
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td service/service05
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td service/service06
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td service/service07
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td subquery/sq11
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td subquery/sq12
+              td.table-danger No
+              td.table-danger No
+            tr
+              td subquery/sq11
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td subquery/sq14
+              td.table-danger No
+              td.table-danger No
+            tr
+              td construct/constructwhere01
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td construct/constructwhere02
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td construct/constructwhere03
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td construct/constructwhere04
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td csv-tsv-res/csvtsv01
+              td.table-success Yes
+              td.table-danger No
+            tr
+              td csv-tsv-res/csvtsv02
+              td.table-success Yes
+              td.table-danger No
+            tr
+              td csv-tsv-res/csvtsv01
+              td.table-success Yes
+              td.table-danger No
+            tr
+              td csv-tsv-res/csvtsv01
+              td.table-success Yes
+              td.table-danger No
+            tr
+              td csv-tsv-res/csvtsv02
+              td.table-success Yes
+              td.table-danger No
+            tr
+              td csv-tsv-res/csvtsv01
+              td.table-success Yes
+              td.table-danger No
+            tr
+              td json-res/jsonres01
+              td.table-success Yes
+              td.table-danger No
+            tr
+              td json-res/jsonres02
+              td.table-success Yes
+              td.table-danger No
+            tr
+              td json-res/jsonres03
+              td.table-success Yes
+              td.table-danger No
+            tr
+              td json-res/jsonres04
+              td.table-success Yes
+              td.table-danger No
+            tr
+              td subquery/sq01
+              td.table-danger No
+              td.table-danger No
+            tr
+              td subquery/sq02
+              td.table-danger No
+              td.table-danger No
+            tr
+              td subquery/sq03
+              td.table-danger No
+              td.table-danger No
+            tr
+              td subquery/sq04
+              td.table-danger No
+              td.table-danger No
+            tr
+              td subquery/sq05
+              td.table-danger No
+              td.table-danger No
+            tr
+              td subquery/sq06
+              td.table-danger No
+              td.table-danger No
+            tr
+              td subquery/sq07
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td subquery/sq08
+              td.table-danger No
+              td.table-danger No
+            tr
+              td subquery/sq09
+              td.table-danger No
+              td.table-danger No
+            tr
+              td subquery/sq10
+              td.table-danger No
+              td.table-danger No
+            tr
+              td subquery/sq13
+              td.table-success Yes
+              td.table-success Yes
+            tr
+              td subquery/sq14
+              td.table-success Yes
+              td.table-success Yes
+
+block extrajs
+  script(type="text/javascript").
+    $(document).ready(function () {
+      for (var tr of $("#compliance-tbody > tr")) {
+        var content = tr.firstElementChild.innerHTML
+        var newContent = '<a target="_blank" href="https://www.w3.org/2009/sparql/docs/tests/data-sparql11/' + content + '.rq">' + content + '</a>'
+        tr.firstElementChild.innerHTML = newContent
+      }
+    })

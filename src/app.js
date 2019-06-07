@@ -52,6 +52,13 @@ fetchVoID(url)
       res.render('home', { year: new Date().getFullYear(), serverURL: url, datasets, rdf, formatNumber })
     })
 
+    app.get('/sparql11_compliance', function (req, res) {
+      res.render('compliance', { year: new Date().getFullYear(), serverURL: url, datasets, rdf, formatNumber })
+    })
+
+    app.get('/api', function (req, res) {
+      res.render('api', { year: new Date().getFullYear(), serverURL: url, datasets, rdf, formatNumber })
+    })
 
     app.listen(3000, function () {
       console.log('Sage Web listening on port 3000!')

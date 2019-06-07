@@ -1,0 +1,20 @@
+extends index
+
+block title
+  | API Documentation - SaGe
+
+block content
+  style(media="screen").
+    .col {
+      width: auto;
+    }
+
+  .container
+    #swaggerWidget
+
+  script(src="/swagger-ui-dist/swagger-ui-bundle.js", type="text/javascript", charset="utf-8")
+  script(type="text/javascript").
+    SwaggerUIBundle({
+      dom_id: '#swaggerWidget',
+      url: '/api.yaml'
+    })
