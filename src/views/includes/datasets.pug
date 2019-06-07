@@ -25,7 +25,8 @@
           tbody
             for dataset in datasets
               tr
-                td= dataset[rdf.DCTERMS('title')][0]['@value']
+                td
+                  a(href=`/see/${dataset[rdf.DCTERMS('title')][0]['@value']}`, target='_none')= dataset[rdf.DCTERMS('title')][0]['@value']
                 td= dataset[rdf.DCTERMS('description')][0]['@value']
                 td= formatNumber(dataset[rdf.VOID('triples')][0]['@value'])
                 td= dataset[rdf.SAGE('quota')][0]['@value']

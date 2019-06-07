@@ -40,8 +40,9 @@ if (url.endsWith('/')) {
 }
 // download the VoID and build the website using it
 fetchVoID(url)
-  .then(datasets => {
+  .then(voID => {
     const app = express()
+    const { datasets, content } = voID
 
     app.set('view engine', 'pug')
     app.set('views', path.join(__dirname, 'views'))
@@ -55,17 +56,28 @@ fetchVoID(url)
     })
 
     app.get('/see/:graphName', function (req, res) {
+      // get dataset
       const graphName = req.params['graphName']
       const dataset = datasets.find(elt => elt['@id'] === `${url}/sparql/${graphName}`)
       if (dataset === undefined) {
         res.status(404).send(`The RDF dataset with name ${graphName} does not exists on this SaGe server`)
       } else {
+        // fetch example queries
+        let exampleQueries = []
+        if (rdf.SAGE('hasExampleQuery') in dataset) {
+          dataset[rdf.SAGE('hasExampleQuery')].forEach(entity => {
+            const query = content.get(entity['@id'])
+            exampleQueries.push(query)
+          })
+        }
+        // render view
         res.render('see', {
           year: new Date().getFullYear(),
           serverURL: url,
           queryURL: `${url}/sparql`,
           datasetURL: `${url}/sparql/${graphName}`,
           voidURL: `${url}/void/${graphName}`,
+          exampleQueries,
           dataset,
           rdf,
           formatNumber

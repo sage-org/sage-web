@@ -45,7 +45,10 @@ function fetchVoID (url) {
       body.forEach(entity => {
         m.set(entity['@id'], entity)
       })
-      resolve(formatVoID(url, m))
+      resolve({
+        content: m,
+        datasets: formatVoID(url, m)
+      })
     })
   })
 }

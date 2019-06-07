@@ -1,0 +1,20 @@
+h2
+  i.fas.fa-atlas
+  |  Example SPARQL queries
+p The following SPARQL queries can be executed on this dataset.
+
+for query in exampleQueries
+  .card
+    .card-body
+      h3.card-title
+        | #{query[rdf.RDFS('label')][0]['@value']}
+        |  
+        a(class="btn btn-sm btn-primary", data-toggle="collapse", href=`#${query['@id'].substring(2)}`, role="button", aria-expanded="false", aria-controls=`collapseQuery${query['@id'].substring(2)}`)
+            i.far.fa-eye
+            |  Show query
+      div(class="collapse", id=`${query['@id'].substring(2)}`)
+        .card-text
+          pre
+            code= query[rdf.RDF('value')][0]['@value']
+  br
+            

@@ -93,6 +93,10 @@ block content
             | Use the online playground 
             strong below
         #sage-widget(url=serverURL, defaultServer=datasetURL, defaultQuery='SELECT * WHERE { ?s ?p ?o }', defaultQName='')
+        
+        hr
+
+        include includes/examples.pug
 
 block extrajs
   script(src="/yasgui-yasqe/dist/yasqe.bundled.min.js", type="text/javascript", charset="utf-8")
