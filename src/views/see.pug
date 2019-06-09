@@ -94,9 +94,9 @@ block content
             strong below
         #sage-widget(url=serverURL, defaultServer=datasetURL, defaultQuery='SELECT * WHERE { ?s ?p ?o }', defaultQName='')
         
-        hr
-
-        include includes/examples.pug
+        if exampleQueries.length > 0
+          hr
+          include includes/examples.pug
 
 block extrajs
   script(src="/yasgui-yasqe/dist/yasqe.bundled.min.js", type="text/javascript", charset="utf-8")
@@ -105,4 +105,8 @@ block extrajs
       createShareLink: null
     })
     yasqe.setValue("SELECT * WHERE { ?s ?p ?o }")
+  script(type="text/javascript").
+    function scrollToQueryBox() {
+      document.getElementById('sage-widget').scrollIntoView()
+    }
            

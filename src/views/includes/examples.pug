@@ -8,13 +8,26 @@ for query in exampleQueries
     .card-body
       h3.card-title
         | #{query[rdf.RDFS('label')][0]['@value']}
-        |  
-        a(class="btn btn-sm btn-primary", data-toggle="collapse", href=`#${query['@id'].substring(2)}`, role="button", aria-expanded="false", aria-controls=`collapseQuery${query['@id'].substring(2)}`)
-            i.far.fa-eye
-            |  Show query
-      div(class="collapse", id=`${query['@id'].substring(2)}`)
-        .card-text
-          pre
-            code= query[rdf.RDF('value')][0]['@value']
+      p
+        // tags
+        if query[rdf.RDF('value')][0]['@value'].toLowerCase().includes('service')
+          span(class="badge badge-info").
+            SERVICE
+          | 
+        if query[rdf.RDF('value')][0]['@value'].toLowerCase().includes('optional')
+          span(class="badge badge-warning").
+            OPTIONAL
+          | 
+        if query[rdf.RDF('value')][0]['@value'].toLowerCase().includes('filter')
+          span(class="badge badge-success").
+            FILTER
+          | 
+      .card-text
+        pre
+          code= query[rdf.RDF('value')][0]['@value']
+        p
+          a(class="btn btn-outline-primary", href=`#query=${encodeURIComponent(query[rdf.RDF('value')][0]['@value'])}&dataset=${dataset['@id']}`, onclick="scrollToQueryBox()")
+            i(class="fas fa-play")
+            |  Try this query
   br
             
