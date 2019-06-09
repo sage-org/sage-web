@@ -4,12 +4,13 @@ block content
   .container
     .row
       .col-md-12
-        h1= dataset[rdf.DCTERMS('title')][0]['@value'] + ' dataset'
+        h1= graph[rdf.DCTERMS('title')][0]['@value'] + ' Graph'
+        hr
         
         h2
           i(class="fas fa-comments")
           |  Description
-        p= dataset[rdf.DCTERMS('description')][0]['@value']
+        p= graph[rdf.DCTERMS('description')][0]['@value']
         
         h2
           i(class="fas fa-info-circle")
@@ -26,28 +27,38 @@ block content
                 th Max results per request
             tbody
               tr
-                td= formatNumber(dataset[rdf.VOID('triples')][0]['@value']) + ' triples'
-                td= formatNumber(dataset[rdf.VOID('distinctSubjects')][0]['@value'])
-                td= formatNumber(dataset[rdf.VOID('properties')][0]['@value'])
-                td= formatNumber(dataset[rdf.VOID('distinctObjects')][0]['@value'])
-                td= dataset[rdf.SAGE('quota')][0]['@value'] + 'ms'
-                if dataset[rdf.HYDRA('itemsPerPage')][0]['@value'] === 'inf'
+                td= formatNumber(graph[rdf.VOID('triples')][0]['@value']) + ' triples'
+                td= formatNumber(graph[rdf.VOID('distinctSubjects')][0]['@value'])
+                td= formatNumber(graph[rdf.VOID('properties')][0]['@value'])
+                td= formatNumber(graph[rdf.VOID('distinctObjects')][0]['@value'])
+                td= graph[rdf.SAGE('quota')][0]['@value'] + 'ms'
+                if graph[rdf.HYDRA('itemsPerPage')][0]['@value'] === 'inf'
                   td No limit
                 else
-                  td= dataset[rdf.HYDRA('itemsPerPage')][0]['@value'] + ' bindings'
+                  td= graph[rdf.HYDRA('itemsPerPage')][0]['@value'] + ' bindings'
 
         h2
           i(class="fas fa-boxes")
           |  VoID description
-        p.
-          Access the <a href="https://www.w3.org/TR/void/">VoID description</a> of the dataset at <a href=voidURL target="_none">#{voidURL}</a>.
+        p
+          | Access the <a href="https://www.w3.org/TR/void/">VoID description</a> of the RDF graph at 
+          a(href=voidURL, target="_none")= voidURL
+        p
+          button(class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#showVoidNT" aria-expanded="false" aria-controls="showVoidNT")
+            i(class="fas fa-eye")
+            |  Show VoID description
+        
+        div.collapse#showVoidNT
+          .card.card-body
+            pre
+              code#void-xml
         
         h2
           i.fab.fa-hubspot
-          |  Query the Dataset
+          |  Query the RDF Graph
         p
-          strong Dataset URI: 
-          a(href=datasetURL) #{datasetURL}
+          strong Graph URI: 
+          a(href=graphURL) #{graphURL}
         // simple queries
         h4 Basic SPARQL queries
         p
@@ -69,14 +80,14 @@ block content
           li
             a(href='https://www.w3.org/TR/sparql11-query/#queryDataset') GRAPH clauses
         form#queryForm(action=queryURL, method='GET')
-          input#defaultGraphUri(hidden='true', name='default-graph-uri', value=datasetURL)
+          input#defaultGraphUri(hidden='true', name='default-graph-uri', value=graphURL)
           .form-group
             label(for='sparqlQueryTextArea')
               strong Type your SPARQL query
             textarea#sparqlQueryTextArea.form-control(name='query')
-          button.btn.btn-success(type='submit')
+          button.btn.btn-outline-success(type='submit')
             i.fas.fa-play
-            |  Execute
+            |  Execute query
         hr
         // complex queries
         h4 Complete SPARQL 1.1 queries
@@ -92,7 +103,7 @@ block content
           li
             | Use the online playground 
             strong below
-        #sage-widget(url=serverURL, defaultServer=datasetURL, defaultQuery='SELECT * WHERE { ?s ?p ?o }', defaultQName='')
+        #sage-widget(url=serverURL, defaultServer=graphURL, defaultQuery='SELECT * WHERE { ?s ?p ?o }', defaultQName='')
         
         if exampleQueries.length > 0
           hr
@@ -101,12 +112,23 @@ block content
 block extrajs
   script(src="/yasgui-yasqe/dist/yasqe.bundled.min.js", type="text/javascript", charset="utf-8")
   script(type="text/javascript").
+    // delcare function to focus the smart client
+    function scrollToQueryBox() {
+      document.getElementById('sage-widget').scrollIntoView()
+    }
+    // init YASQL ezditor for basic queries form
     var yasqe = YASQE.fromTextArea(document.getElementById("sparqlQueryTextArea"), {
       createShareLink: null
     })
     yasqe.setValue("SELECT * WHERE { ?s ?p ?o }")
-  script(type="text/javascript").
-    function scrollToQueryBox() {
-      document.getElementById('sage-widget').scrollIntoView()
-    }
+    // fetch VoID in NT
+    const headers = new Headers()
+    headers.append('accept', 'text/turtle')
+    const req = new Request('#{voidURL}', { headers })
+    fetch(req)
+      .then(res => res.text())
+      .then(voID => {
+        document.getElementById('void-xml').textContent = voID
+      })
+    
            

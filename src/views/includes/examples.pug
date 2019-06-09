@@ -1,7 +1,7 @@
 h2
   i.fas.fa-atlas
   |  Example SPARQL queries
-p The following SPARQL queries can be executed on this dataset.
+p The following SPARQL queries can be executed on this RDF Graph.
 
 for query in exampleQueries
   .card
@@ -26,7 +26,7 @@ for query in exampleQueries
         pre
           code= query[rdf.RDF('value')][0]['@value']
         p
-          a(class="btn btn-outline-primary", href=`#query=${encodeURIComponent(query[rdf.RDF('value')][0]['@value'])}&dataset=${dataset['@id']}`, onclick="scrollToQueryBox()")
+          a(class="btn btn-outline-primary", href=`#query=${encodeURIComponent(query[rdf.RDF('value')][0]['@value'])}&dataset=${graph['@id']}`, onclick="scrollToQueryBox()")
             i(class="fas fa-play")
             |  Try this query
   br

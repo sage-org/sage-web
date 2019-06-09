@@ -56,16 +56,16 @@ fetchVoID(url)
     })
 
     app.get('/see/:graphName', function (req, res) {
-      // get dataset
+      // get graph
       const graphName = req.params['graphName']
-      const dataset = datasets.find(elt => elt['@id'] === `${url}/sparql/${graphName}`)
-      if (dataset === undefined) {
-        res.status(404).send(`The RDF dataset with name ${graphName} does not exists on this SaGe server`)
+      const graph = datasets.find(elt => elt['@id'] === `${url}/sparql/${graphName}`)
+      if (graph === undefined) {
+        res.status(404).send(`The RDF Graph with name ${graphName} does not exists on this SaGe server`)
       } else {
         // fetch example queries
         let exampleQueries = []
-        if (rdf.SAGE('hasExampleQuery') in dataset) {
-          dataset[rdf.SAGE('hasExampleQuery')].forEach(entity => {
+        if (rdf.SAGE('hasExampleQuery') in graph) {
+          graph[rdf.SAGE('hasExampleQuery')].forEach(entity => {
             const query = content.get(entity['@id'])
             exampleQueries.push(query)
           })
@@ -75,10 +75,10 @@ fetchVoID(url)
           year: new Date().getFullYear(),
           serverURL: url,
           queryURL: `${url}/sparql`,
-          datasetURL: `${url}/sparql/${graphName}`,
+          graphURL: `${url}/sparql/${graphName}`,
           voidURL: `${url}/void/${graphName}`,
           exampleQueries,
-          dataset,
+          graph,
           rdf,
           formatNumber
         })

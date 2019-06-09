@@ -11,7 +11,7 @@
           thead
             tr
               th.
-                Dataset
+                RDF Graph
               th.
                 Description
               th.
@@ -23,18 +23,18 @@
               th.
                 More details
           tbody
-            for dataset in datasets
+            for graph in datasets
               tr
                 td
-                  a(href=`/see/${dataset[rdf.DCTERMS('title')][0]['@value']}`, target='_none')= dataset[rdf.DCTERMS('title')][0]['@value']
-                td= dataset[rdf.DCTERMS('description')][0]['@value']
-                td= formatNumber(dataset[rdf.VOID('triples')][0]['@value'])
-                td= dataset[rdf.SAGE('quota')][0]['@value']
+                  a(href=`/see/${graph[rdf.DCTERMS('title')][0]['@value']}`, target='_none')= graph[rdf.DCTERMS('title')][0]['@value']
+                td= graph[rdf.DCTERMS('description')][0]['@value']
+                td= formatNumber(graph[rdf.VOID('triples')][0]['@value'])
+                td= graph[rdf.SAGE('quota')][0]['@value']
                 td
-                  a(href=`${serverURL}/void/${dataset[rdf.DCTERMS('title')][0]['@value']}`, target='_none')
+                  a(href=`${serverURL}/void/${graph[rdf.DCTERMS('title')][0]['@value']}`, target='_none')
                     i(class="fas fa-external-link-alt")
                     |  Open
                 td
-                  a(href=`/see/${dataset[rdf.DCTERMS('title')][0]['@value']}`, target='_none')
+                  a(href=`/see/${graph[rdf.DCTERMS('title')][0]['@value']}`, target='_none')
                     i(class="fas fa-external-link-alt")
                     |  Open
