@@ -13,4 +13,4 @@
       p
         a(href="/sparql11_compliance")
           | See the supported SPARQL 1.1 features
-      #sage-widget(urls=urls.join(','), defaultServer='')
+      #sage-widget(urls=urls.join(','), defaultServer=`${datasets[0].graphs[0]['@id']}`)

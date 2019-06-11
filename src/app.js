@@ -25,6 +25,7 @@ SOFTWARE.
 'use strict'
 
 const express = require('express')
+const program = require('commander')
 const cors = require('cors')
 const path = require('path')
 const fetchVoID = require('./void.js')
@@ -34,7 +35,14 @@ function formatNumber (x) {
   return x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
 
-let urls = [process.argv[2], process.argv[3]].map(url => {
+program
+  .name('sage-web')
+  .description('Start a Web server to serve the SaGe interactive website')
+  .version('1.0.0')
+  .usage('<urls ...>')
+  .parse(process.argv)
+
+let urls = program.args.map(url => {
   if (url.endsWith('/')) {
     return url.substring(0, url.length - 1)
   }
