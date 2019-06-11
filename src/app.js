@@ -34,78 +34,90 @@ function formatNumber (x) {
   return x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
 
-let url = process.argv[2]
-if (url.endsWith('/')) {
-  url = url.substring(0, url.length - 1)
-}
+let urls = [process.argv[2], process.argv[3]].map(url => {
+  if (url.endsWith('/')) {
+    return url.substring(0, url.length - 1)
+  }
+  return url
+})
+
 // download the VoID and build the website using it
-fetchVoID(url)
-  .then(voID => {
-    const app = express()
-    const { datasets, content } = voID
+Promise.all(urls.map(url => {
+  return fetchVoID(url).then(v => {
+    return { url, content: v.content, graphs: v.datasets }
+  })
+})).then(voIDs => {
+  const app = express()
 
-    app.set('view engine', 'pug')
-    app.set('views', path.join(__dirname, 'views'))
-    app.use(cors())
+  app.set('view engine', 'pug')
+  app.set('views', path.join(__dirname, 'views'))
+  app.use(cors())
 
-    app.use(express.static(path.join(__dirname, 'static')))
-    app.use(express.static(path.join(__dirname, '../node_modules')))
+  app.use(express.static(path.join(__dirname, 'static')))
+  app.use(express.static(path.join(__dirname, '../node_modules')))
 
-    app.get('/', function (req, res) {
-      res.render('home', { year: new Date().getFullYear(), serverURL: url, datasets, rdf, formatNumber })
+  app.get('/', function (req, res) {
+    res.render('home', {
+      year: new Date().getFullYear(),
+      urls,
+      datasets: voIDs,
+      rdf,
+      formatNumber
     })
+  })
 
-    app.get('/see/:graphName', function (req, res) {
+  app.get('/see/:graphName', function (req, res) {
+    // get dataset for this graph
+    const graphName = req.params['graphName']
+    const dataset = voIDs.find(elt => {
+      return elt.graphs.find(g => g[rdf.DCTERMS('title')][0]['@value'] === graphName) !== undefined
+    })
+    if (dataset === undefined) {
+      res.status(404).send(`The RDF Graph with name ${graphName} does not exists on this SaGe server`)
+    } else {
+      const url = dataset.url
       // get graph
-      const graphName = req.params['graphName']
-      const graph = datasets.find(elt => elt['@id'] === `${url}/sparql/${graphName}`)
-      if (graph === undefined) {
-        res.status(404).send(`The RDF Graph with name ${graphName} does not exists on this SaGe server`)
-      } else {
-        // fetch example queries
-        let exampleQueries = []
-        if (rdf.SAGE('hasExampleQuery') in graph) {
-          graph[rdf.SAGE('hasExampleQuery')].forEach(entity => {
-            const query = content.get(entity['@id'])
-            exampleQueries.push(query)
-          })
-        }
-        // render view
-        res.render('see', {
-          year: new Date().getFullYear(),
-          serverURL: url,
-          queryURL: `${url}/sparql`,
-          graphURL: `${url}/sparql/${graphName}`,
-          voidURL: `${url}/void/${graphName}`,
-          exampleQueries,
-          graph,
-          rdf,
-          formatNumber
+      const graph = dataset.graphs.find(g => g[rdf.DCTERMS('title')][0]['@value'] === graphName)
+      // fetch example queries
+      let exampleQueries = []
+      if (rdf.SAGE('hasExampleQuery') in graph) {
+        graph[rdf.SAGE('hasExampleQuery')].forEach(entity => {
+          const query = dataset.content.get(entity['@id'])
+          exampleQueries.push(query)
         })
       }
-    })
-
-    app.get('/sparql11_compliance', function (req, res) {
-      res.render('compliance', {
+      // render view
+      res.render('see', {
         year: new Date().getFullYear(),
         serverURL: url,
-        datasets,
+        queryURL: `${url}/sparql`,
+        graphURL: `${url}/sparql/${graphName}`,
+        voidURL: `${url}/void/${graphName}`,
+        exampleQueries,
+        graph,
         rdf,
         formatNumber
       })
-    })
+    }
+  })
 
-    app.get('/api', function (req, res) {
-      res.render('api', {
-        year: new Date().getFullYear(),
-        serverURL: url,
-        datasets,
-        rdf,
-        formatNumber
-      })
+  app.get('/sparql11_compliance', function (req, res) {
+    res.render('compliance', {
+      year: new Date().getFullYear(),
+      rdf,
+      formatNumber
     })
+  })
 
-    app.listen(3000, function () {
-      console.log('Sage Web listening on port 3000!')
+  app.get('/api', function (req, res) {
+    res.render('api', {
+      year: new Date().getFullYear(),
+      rdf,
+      formatNumber
     })
-  }).catch(console.error)
+  })
+
+  app.listen(3000, function () {
+    console.log('Sage Web listening on port 3000!')
+  })
+}).catch(console.error)
