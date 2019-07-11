@@ -40,6 +40,7 @@ program
   .description('Start a Web server to serve the SaGe interactive website')
   .version('1.0.0')
   .usage('<urls ...>')
+  .option('-p, --port <port>', 'Port on which the server should listen', 3000)
   .parse(process.argv)
 
 let urls = program.args.map(url => {
@@ -125,7 +126,7 @@ Promise.all(urls.map(url => {
     })
   })
 
-  app.listen(3000, function () {
-    console.log('Sage Web listening on port 3000!')
+  app.listen(program.port, function () {
+    console.log(`Sage Web listening on port ${program.port}!`)
   })
 }).catch(console.error)
