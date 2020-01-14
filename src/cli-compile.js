@@ -37,6 +37,7 @@ function formatNumber (x) {
 }
 
 program
+  .name('sage-web compile')
   .description('Start a Web server to serve the SaGe interactive website')
   .usage('<urls ...>')
   .option('-o, --output <output>', 'Output directory', './build')

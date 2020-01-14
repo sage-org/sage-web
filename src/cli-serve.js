@@ -37,6 +37,7 @@ function formatNumber (x) {
 }
 
 program
+  .name('sage-web server')
   .description('Start a Web server to serve the SaGe interactive website')
   .usage('<urls ...>')
   .option('-p, --port <port>', 'Port on which the server should listen', 3000)
@@ -128,7 +129,4 @@ Promise.all(urls.map(url => {
   app.listen(program.port, function () {
     console.log(`Sage Web listening on port ${program.port}!`)
   })
-
-  app.get('/sparql', proxy(urls[0] + '/sparql'))
-  app.post('/sparql', proxy(urls[0] + '/sparql'))
 }).catch(console.error)

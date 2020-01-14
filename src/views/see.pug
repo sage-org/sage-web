@@ -6,12 +6,12 @@ block content
       .col-md-12
         h1= graph[rdf.DCTERMS('title')][0]['@value'] + ' Graph'
         hr
-        
+
         h2
           i(class="fas fa-comments")
           |  Description
         p= graph[rdf.DCTERMS('description')][0]['@value']
-        
+
         h2
           i(class="fas fa-info-circle")
           |  Infos
@@ -47,12 +47,12 @@ block content
           button(class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#showVoidNT" aria-expanded="false" aria-controls="showVoidNT")
             i(class="fas fa-eye")
             |  Show VoID description
-        
+
         div.collapse#showVoidNT
           .card.card-body
             pre
               code#void-xml
-        
+
         h2
           i.fab.fa-hubspot
           |  Query the RDF Graph
@@ -104,7 +104,7 @@ block content
             | Use the online playground 
             strong below
         #sage-widget(urls=serverURL, defaultServer=graphURL, defaultQuery='SELECT * WHERE { ?s ?p ?o }', defaultQName='')
-        
+
         if exampleQueries.length > 0
           hr
           include includes/examples.pug
@@ -130,5 +130,3 @@ block extrajs
       .then(voID => {
         document.getElementById('void-xml').textContent = voID
       })
-    
-           
