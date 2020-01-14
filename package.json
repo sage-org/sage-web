@@ -2,10 +2,10 @@
   "name": "sage-web",
   "version": "1.0.0",
   "description": "Web interface for a SaGe server",
-  "main": "src/app.js",
+  "main": "src/cli.js",
   "scripts": {
     "lint": "standard src/*.js --fix",
-    "web": "node src/app.js",
+    "cli": "node src/cli.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,10 +27,11 @@
     "commander": "^2.20.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-http-proxy": "^1.5.1",
     "jquery": "^3.4.1",
     "lodash": "^4.17.11",
     "popper.js": "^1.15.0",
-    "pug": "^2.0.3",
+    "pug": "^2.0.4",
     "request": "^2.88.0",
     "sage-client": "^1.3.2",
     "sage-widget": "^3.0.0",

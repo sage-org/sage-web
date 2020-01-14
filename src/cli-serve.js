@@ -1,4 +1,4 @@
-/* file : app.js
+/* file : cli-serve.js
 MIT License
 
 Copyright (c) 2019 Thomas Minier
@@ -25,6 +25,7 @@ SOFTWARE.
 'use strict'
 
 const express = require('express')
+const proxy = require('express-http-proxy')
 const program = require('commander')
 const cors = require('cors')
 const path = require('path')
@@ -36,9 +37,7 @@ function formatNumber (x) {
 }
 
 program
-  .name('sage-web')
   .description('Start a Web server to serve the SaGe interactive website')
-  .version('1.0.0')
   .usage('<urls ...>')
   .option('-p, --port <port>', 'Port on which the server should listen', 3000)
   .parse(process.argv)
@@ -129,4 +128,7 @@ Promise.all(urls.map(url => {
   app.listen(program.port, function () {
     console.log(`Sage Web listening on port ${program.port}!`)
   })
+
+  app.get('/sparql', proxy(urls[0] + '/sparql'))
+  app.post('/sparql', proxy(urls[0] + '/sparql'))
 }).catch(console.error)
