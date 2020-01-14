@@ -17,9 +17,9 @@ It is divided into *two subcommands*, which both takes as first arguments the UR
 * The `sage-web serve <url> -p <port>` command start the website using a local HTTP server on the given port.
 * The `sage-web compile <url> -o <output>` command compile the website as static HTML into the output directory.
 
-Additionnaly, the `save-web help <cmd>` can be used to display the help for the subcommand `cmd`.
+Additionnaly, the `save-web help <cmd>` command can be used to display the help for the subcommand `cmd`.
 
-For example, `sage-web serve http://soyez-sage.univ-nantes.fr -p 8000` launch an interactive website similar to the one available at [http://sage.univ-nantes.fr](http://sage.univ-nantes.fr) and which can be accessed at [http://localhost:800](http://localhost:800).
+For example, `sage-web serve http://soyez-sage.univ-nantes.fr -p 8000` launch an interactive website, similar to the one available at [http://sage.univ-nantes.fr](http://sage.univ-nantes.fr), which can be accessed at [http://localhost:800](http://localhost:800).
 
 ## Help for `sage-web`
 ```
