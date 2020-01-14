@@ -113,5 +113,4 @@ Promise.all(urls.map(url => {
     writeFileSync(`${program.output}/see/${seePage.graphName}.html`, seePage.html)
   })
 
-
 }).catch(console.error)

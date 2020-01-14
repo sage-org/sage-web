@@ -24,17 +24,9 @@ SOFTWARE.
 
 'use strict'
 
-const express = require('express')
-const proxy = require('express-http-proxy')
 const program = require('commander')
-const cors = require('cors')
-const path = require('path')
-const fetchVoID = require('./void.js')
-const rdf = require('./rdf.js')
 
-function formatNumber (x) {
-  return x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-}
+const getServer = require('./web-server.js')
 
 program
   .name('sage-web server')
@@ -50,83 +42,9 @@ let urls = program.args.map(url => {
   return url
 })
 
-// download the VoID and build the website using it
-Promise.all(urls.map(url => {
-  return fetchVoID(url).then(v => {
-    return { url, content: v.content, graphs: v.datasets }
-  })
-})).then(voIDs => {
-  const app = express()
-
-  app.set('view engine', 'pug')
-  app.set('views', path.join(__dirname, 'views'))
-  app.use(cors())
-
-  app.use(express.static(path.join(__dirname, 'static')))
-  app.use(express.static(path.join(__dirname, '../node_modules')))
-
-  app.get('/', function (req, res) {
-    res.render('home', {
-      year: new Date().getFullYear(),
-      urls,
-      datasets: voIDs,
-      rdf,
-      formatNumber
+getServer(urls)
+  .then(app => {
+    app.listen(program.port, function () {
+      console.log(`Sage Web listening on port ${program.port}!`)
     })
-  })
-
-  app.get('/see/:graphName', function (req, res) {
-    // get dataset for this graph
-    const graphName = req.params['graphName']
-    const dataset = voIDs.find(elt => {
-      return elt.graphs.find(g => g[rdf.DCTERMS('title')][0]['@value'] === graphName) !== undefined
-    })
-    if (dataset === undefined) {
-      res.status(404).send(`The RDF Graph with name ${graphName} does not exists on this SaGe server`)
-    } else {
-      const url = dataset.url
-      // get graph
-      const graph = dataset.graphs.find(g => g[rdf.DCTERMS('title')][0]['@value'] === graphName)
-      // fetch example queries
-      let exampleQueries = []
-      if (rdf.SAGE('hasExampleQuery') in graph) {
-        graph[rdf.SAGE('hasExampleQuery')].forEach(entity => {
-          const query = dataset.content.get(entity['@id'])
-          exampleQueries.push(query)
-        })
-      }
-      // render view
-      res.render('see', {
-        year: new Date().getFullYear(),
-        serverURL: url,
-        queryURL: `${url}/sparql`,
-        graphURL: `${url}/sparql/${graphName}`,
-        voidURL: `${url}/void/${graphName}`,
-        exampleQueries,
-        graph,
-        rdf,
-        formatNumber
-      })
-    }
-  })
-
-  app.get('/sparql11_compliance', function (req, res) {
-    res.render('compliance', {
-      year: new Date().getFullYear(),
-      rdf,
-      formatNumber
-    })
-  })
-
-  app.get('/api', function (req, res) {
-    res.render('api', {
-      year: new Date().getFullYear(),
-      rdf,
-      formatNumber
-    })
-  })
-
-  app.listen(program.port, function () {
-    console.log(`Sage Web listening on port ${program.port}!`)
-  })
-}).catch(console.error)
+  }).catch(console.error)
