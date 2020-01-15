@@ -1,4 +1,5 @@
 # sage-web
+[![Build Status](https://travis-ci.com/sage-org/sage-web.svg?branch=master)](https://travis-ci.com/sage-org/sage-web)
 
 Generate an interactive Web interface for a SaGe SPARQL query server, similar to the one available at [http://sage.univ-nantes.fr](http://sage.univ-nantes.fr).
 
