@@ -4,7 +4,8 @@ node_js:
 notifications:
   email: false
 cache: yarn
-script: yarn test
+script:
+  - yarn test
 deploy:
 - provider: npm
   skip_cleanup: true
