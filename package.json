@@ -30,7 +30,7 @@
     "jquery": "^3.4.1",
     "lodash": "^4.17.11",
     "popper.js": "^1.15.0",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "request": "^2.88.0",
     "sage-client": "^2.0.1",
     "sage-widget": "^3.1.0",
