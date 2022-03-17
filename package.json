@@ -34,7 +34,7 @@
     "request": "^2.88.0",
     "sage-client": "^2.0.1",
     "sage-widget": "^3.1.0",
-    "swagger-ui-dist": "^3.22.2",
+    "swagger-ui-dist": "^4.1.3",
     "yasgui-yasqe": "^2.11.22"
   },
   "devDependencies": {
